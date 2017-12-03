@@ -20,7 +20,7 @@ where *G* is the initial temperature gradient (increase in temperature with dept
 
 With this equation, the temperature increases linearly with depth at the start of the calculation (*T*(*z*,*t*=0) = *Gz*) and the geotherm will evolve over time as a function of the advection velocity and thermal diffusivity.
 
-If you are curious about how the the advection and diffusion equations are combined in Equation 1, you can find a solution to the steady-state version of the 1D heat transfer equation in the [notes on solving the advection-diffusion equation](https://introqg.github.io/2017/lessons/L11/solving-advection.html) from [Lesson 11](https://introqg.github.io/2017/lessons/L11/overivew.html).
+If you are curious about how the the advection and diffusion equations are combined in Equation 1, you can find a solution to the steady-state version of the 1D heat transfer equation in the [notes on solving the advection-diffusion equation](https://introqg.github.io/2017/lessons/L11/solving-advection.html) from [Lesson 11](https://introqg.github.io/2017/lessons/L11/overview.html).
 
 ## Problem 1 - The time dependence of rock advection
 We will begin by plotting geotherms to get a sense of how our temperature equation works.
