@@ -1,14 +1,19 @@
-"""
-age_predict_1D.py
+#!/usr/bin/env python3
+"""Calculates 1D temperatures and predicts thermochronometer ages.
 
-This code predicts thermochronometer cooling ages using a 1-D transient
-advection-diffusion thermal model and Dodson's method for predicting mineral
-closure temperatures.
+Description:
+    This code predicts thermochronometer cooling ages using a 1-D transient
+    advection-diffusion thermal model and Dodson's method for predicting mineral
+    closure temperatures.
 
-The surface temperature is assumed to be 0 deg. C and the final simulation
-time in the model is 0 Ma.
-
-@author: Dave Whipp - 5.12.16
+    The surface temperature is assumed to be 0 deg. C and the final simulation
+    time in the model is 0 Ma.
+    
+Usage:
+    ./age_predict_1D.py
+    
+Author:
+    XXX YYY - DD.MM.YYYY
 """
 
 # Import modules
@@ -18,60 +23,60 @@ from scipy.special import erfc
 
 # Define function to calculate temperature as a function of depth, time, initial
 # thermal gradient, advection velocity and thermal diffusivity
-def transientTemp1D(z,t,G,vz,kappa):
+def transientTemp1D(z, t, G, vz, kappa):
     # Calculate T separately for case where t = 0 to avoid divide-by-zero warnings
     if t == 0:
-        Temperature = G * z
+        temperature = G * z
     else:
-        Temperature = G * (z + vz * t) + (G / 2.0) * ((z - vz * t) * np.exp(-(vz * z) / kappa) *\
+        temperature = G * (z + vz * t) + (G / 2.0) * ((z - vz * t) * np.exp(-(vz * z) / kappa) *\
         erfc((z - vz * t) / (2.0 * np.sqrt(kappa * t))) - (z + vz * t) * \
         erfc((z + vz * t) / (2.0 * np.sqrt(kappa * t))))
-    return Temperature
+    return temperature
 
 #--- USER-DEFINED VARIABLES ---------------------------------------------------#
 
 # PROGRAM OPTIONS
-plotT0 = True          # Plot the initial thermal solution
-plotTzHistory = False  # Plot the temperature-depth history of the tracked particle
-calcAHe = False        # Calculate apatite (U-Th)/He age
-calcZHe = False        # Calculate zircon (U-Th)/He age
-calcMAr = False        # Calculate muscovite 40Ar/39Ar age
+plotT0 = True           # Plot the initial thermal solution
+plotTzHistory = True   # Plot the temperature-depth history of the tracked particle
+calcAHe = True         # Calculate apatite (U-Th)/He age
+calcZHe = False         # Calculate zircon (U-Th)/He age
+calcMAr = False         # Calculate muscovite 40Ar/39Ar age
 
 # THERMAL MODEL PARAMETERS
-Tgradient = 10.0  # Initial thermal gradient [deg. C / km]
-zMax = 50.0       # Thermal model thickness [km]
-tMax = 50.0       # Total thermal model simulation time [Ma]
-vz = 0.5          # Vertical advection velocity [km/Ma]
-kappa = 32.0      # Thermal diffusivity [km2 / Ma]
-npz = 101         # Number of depth points for temperature calculation
-npt = 401         # Number of times for temperature calculation
-highT = 1000.0    # Temperature to assign if tracked particle depth exceeds zmax
-nTout = 1         # Number of temperature profiles to plot
+Tgradient = 10.0        # Initial thermal gradient [deg. C / km]
+zMax = 50.0             # Thermal model thickness [km]
+tMax = 50.0             # Total thermal model simulation time [Ma]
+vz = 0.5                # Vertical advection velocity [km/Ma]
+kappa = 32.0            # Thermal diffusivity [km2 / Ma]
+npz = 101               # Number of depth points for temperature calculation
+npt = 401               # Number of times for temperature calculation
+highT = 1000.0          # Temperature to assign if tracked particle depth exceeds zmax
+nTout = 1               # Number of temperature profiles to plot
 
 # CLOSURE TEMPERATURE PARAMETERS
 # Apatite (U-Th)/He
-aAHe = 100.0       # Apatite grain size [um]
-EaAHe = 138.0e3    # Activation energy [J/mol]
-AAHe = 25.0        # Geometry factor [25 for sphere]
-D0AHe = 5.0e-3     # Diffusivity at infinite temperature [m2/s]
-tauAHe = 1.0       # Initial guess for characteristic time
+aAHe = 100.0            # Apatite grain size [um]
+EaAHe = 138.0e3         # Activation energy [J/mol]
+AAHe = 25.0             # Geometry factor [25 for sphere]
+D0AHe = 5.0e-3          # Diffusivity at infinite temperature [m2/s]
+tauAHe = 1.0            # Initial guess for characteristic time
 
 # Zircon (U-Th)/He
-aZHe = 100.0       # Zircon grain size [um]
-EaZHe = 168.0e3    # Activation energy [J/mol]
-AZHe = 25.0        # Geometry factor [25 for sphere]
-D0ZHe = 4.6e-5     # Diffusivity at infinite temperature [m2/s]
-tauZHe = 1.0       # Initial guess for characteristic time
+aZHe = 100.0            # Zircon grain size [um]
+EaZHe = 168.0e3         # Activation energy [J/mol]
+AZHe = 25.0             # Geometry factor [25 for sphere]
+D0ZHe = 4.6e-5          # Diffusivity at infinite temperature [m2/s]
+tauZHe = 1.0            # Initial guess for characteristic time
 
 # Muscovite Ar/Ar
-aMAr = 500.0       # Muscovite grain size [um]
-EaMAr = 183.0e3    # Activation energy [J/mol]
-AMAr = 8.7         # Geometry factor [8.7 for planar sheet]
-D0MAr = 3.3e-6     # Diffusivity at infinite temperature [m2/s]
-tauMAr = 1.0       # Initial guess for characteristic time
+aMAr = 500.0            # Muscovite grain size [um]
+EaMAr = 183.0e3         # Activation energy [J/mol]
+AMAr = 8.7              # Geometry factor [8.7 for planar sheet]
+D0MAr = 3.3e-6          # Diffusivity at infinite temperature [m2/s]
+tauMAr = 1.0            # Initial guess for characteristic time
 
 # OTHER CONSTANTS
-R = 8.314         # Universal gas constant
+R = 8.314               # Universal gas constant
 
 #--- END USER-DEFINED VARIABLES -----------------------------------------------#
 
@@ -94,14 +99,14 @@ D0a2ZHe = D0ZHe / aZHe**2.0    # Zircon
 D0a2MAr = D0MAr / aMAr**2.0    # Muscovite
 
 # Thermal model setup
-z = np.linspace(0.0, zMax, npz)            # Define depth range array
-t = np.linspace(0.0, tMax, npt)            # Define time range array
-tMa = np.linspace(tMax, 0.0, npt)          # Define time array in Ma (time before present)
-zHistory = np.linspace(tMax * vz, 0.0, npt)   # Define z particle position history
-Thistory = np.zeros(len(t))                   # Define initial temperature history array
-Temperature = np.zeros(len(z))                # Define initial temperature array
+z = np.linspace(0.0, zMax, npz)             # Define depth range array
+t = np.linspace(0.0, tMax, npt)             # Define time range array
+tMa = np.linspace(tMax, 0.0, npt)           # Define time array in Ma (time before present)
+zHistory = np.linspace(tMax * vz, 0.0, npt) # Define z particle position history
+Thistory = np.zeros(len(t))                 # Define initial temperature history array
+Temperature = np.zeros(len(z))              # Define initial temperature array
 
-iout = int(float(len(t)-1)/float(nTout))   # Define increment for ploting output
+iout = int(float(len(t)-1)/float(nTout))    # Define increment for ploting output
 
 # Make a new plot window
 plt.figure()
@@ -205,7 +210,7 @@ if calcMAr:
 
 # Plot particle depth-temperature history if requested
 if plotTzHistory:
-    plt.plot(Thistory,-zHistory,'*')
+    plt.plot(Thistory,-zHistory,'o')
 
 # Label axes and add title
 plt.xlabel("")
