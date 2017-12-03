@@ -34,17 +34,17 @@ To start, please add axis labels and a title to this plot. **What is the advecti
 5. Lastly, reset the initial temperature gradient to 10°C/km. Increase the number of temperature calculations to plot from 1 to 5 and run the thermal model. Save this plot and insert it at the end of this document. **In your opinion, is it helpful to see the temperature calculations at different times?**
 
 ## Predicting thermochronometer ages
-Thermochronometers record the time since a rock or mineral was at a given temperature (closure temperature) in the Earth.
-Above, we have calculated temperature solutions assuming 1-D vertical advection of rock.
-Here, we will track rocks through the thermal field with time and use their recorded thermal history to predict thermochronometer ages.
+Thermochronometers record the time since a rock or mineral was at a certain temperature (the closure temperature) in the Earth.
+Above, we have calculated temperature solutions assuming 1-D vertical advection of the crust.
+Here, we will track a parcel of rock through the temperature field as it is advected toward the surface and use the recorded temperature history to predict thermochronometer ages.
 The key to understanding what is done here is to understand that we will be simulating the position of a parcel of rock at depth in the earth, and at each time step the position of the rock parcel will be moved upward according to the length of the time step multiplied by the advection velocity.
 In mathematical terms, this relationship is
 
 ![Equation 3](Images/Equation3.png)<br/> *Equation 3. Equation for calculating rock particle depth as a function of time.*
 
-Thus, we will track a parcel of rock from some depth in the model at time *t*=0 to the surface when the simulation is complete at 0 Ma.
-At each depth position, the temperature of the parcel of rock will be recorded, which will allow the thermal history of the rock parcel to be used to predict different thermochronometer ages.
-We will consider the apatite (U-Th)/He, zircon (U-Th)/He and muscovite <sup>40</sup>Ar/<sup>39</sup>Ar thermochronometers that were presented briefly in lecture.
+Thus, we will track a parcel of rock from some depth in the model at the start of the temperature calculation to its final location at the surface when the simulation is complete at 0 Ma.
+At each depth, the temperature of the parcel of rock will be stored, which will allow the cooling in the temperature history of the rock parcel to be used to predict different thermochronometer ages.
+We will consider the apatite (U-Th)/He, zircon (U-Th)/He, and muscovite <sup>40</sup>Ar/<sup>39</sup>Ar thermochronometers that were presented briefly in lecture.
 
 Thermochronometer closure temperatures will be predicted using Dodson's method, which was also discussed briefly in lecture.
 According to Dodson's method, the closure temperature *T*<sub>c</sub> of a thermochronometer is
@@ -57,8 +57,8 @@ where *E*<sub>a</sub> is the activation energy, *R* is the universal gas constan
 
 By simulating cooling of the minerals by iterating over the values of the recorded temperature history from depth to the surface, thermochronometer ages can be predicted for various systems.
 
-## Problem 2 - Cooling ages and their relationship to exhumation rate
-One of the main interests for scientists using thermochronology is to determine the exhumation rate of a study area based on the ages of thermochronometer data at the surface.
+## Problem 2 - Cooling ages and their relationship exhumation rates
+One of the main interests for geoscientists using thermochronology is to determine the average exhumation rate of rocks in a study area based on the ages of thermochronometer data at the surface.
 
 1. At the top of the Python script [`age_predict_1D.py`](age_predict_1D.py), there are three flags (`True`/`False` variables) that allow you to enable the calculation of different thermochronometers.
 Set the value for `calc_AHe` to `True` to enable prediction of apatite (U-Th)/He ages and run the model with the default parameters.
@@ -67,10 +67,10 @@ Set the value for `calc_AHe` to `True` to enable prediction of apatite (U-Th)/He
 **What is the closure temperature for the model in this case?**
 If you look carefully through the code, you can find where the closure temperature is calculated.
 Add text to your plot to display the predicted apatite (U-Th)/He age and predicted closure temperature using the `plt.text()` function.
-I suggest that you add the text functions at the bottom of the script where the predicted apatite (U-Th)/He age is written to the screen (if requested).
+I suggest that you use the plotting text function at the bottom of the script where the predicted apatite (U-Th)/He age is written to the screen (if requested).
 Save a copy of the plot and insert it at the end of this document.
 2. Similar to above, set the flags for `calc_ZHe` and `calc_MAr` to `True` and add the corresponding `plt.text()` functions to display the predicted zircon (U-Th)/He and muscovite <sup>40</sup>Ar/<sup>39</sup>Ar ages and their predicted closure temperatures.
-As above, I suggest that you add the text functions at the bottom of the script where the predicted apatite (U-Th)/He age is written to the screen (if requested).
+As above, I suggest that you use the plotting text function at the bottom of the script where the predicted ages are written to the screen (if requested).
 Save a copy of the plot and insert it at the end of this document.
 **Do all of the predicted thermochronometer ages make sense?**
 3. To understand more about how the thermochronometer ages are predicted, it can he helpful to look at the temperature-depth history of the parcel of rock as it travels from depth to the surface.
