@@ -37,8 +37,8 @@ def transientTemp1D(z, t, G, vz, kappa):
 
 # PROGRAM OPTIONS
 plotT0 = True           # Plot the initial thermal solution
-plotTzHistory = True   # Plot the temperature-depth history of the tracked particle
-calcAHe = True         # Calculate apatite (U-Th)/He age
+plotTzHistory = False   # Plot the temperature-depth history of the tracked particle
+calcAHe = False         # Calculate apatite (U-Th)/He age
 calcZHe = False         # Calculate zircon (U-Th)/He age
 calcMAr = False         # Calculate muscovite 40Ar/39Ar age
 
